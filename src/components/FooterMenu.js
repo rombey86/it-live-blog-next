@@ -3,7 +3,7 @@ import { useQuery, gql } from '@apollo/client';
 
 const FOOTER_MENU_QUERY = gql`
   query GetFooterMenu {
-    menuItems(where: {location: WORDPRESS_MENU_LOCATION_FOOTER}) {
+    menuItems(where: {location: ${process.env.WORDPRESS_MENU_LOCATION_FOOTER}}) {
       edges {
         node {
           id
