@@ -63,7 +63,7 @@ export function userSlugByName(name) {
  */
 
 export async function getAllUsers() {
-  const apolloClient = getApolloClient();
+  const apolloClient = initializeApollo();
 
   let usersData;
   let seoData;
