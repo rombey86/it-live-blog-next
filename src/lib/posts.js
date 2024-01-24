@@ -1,4 +1,4 @@
-import { getApolloClient } from 'lib/apollo-client';
+import { initializeApollo } from 'lib/apollo-client';
 
 import { updateUserAvatar } from 'lib/users';
 import { sortObjectsByDate } from 'lib/datetime';
