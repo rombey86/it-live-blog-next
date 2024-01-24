@@ -21,10 +21,12 @@ const FooterMenu = () => {
   const menuLocation = process.env.WORDPRESS_MENU_LOCATION_FOOTER;
 
   // Pass the variable to the useQuery hook
-  const { loading, error, data } = useQuery(FOOTER_MENU_QUERY, {
-    variables: { location: menuLocation },
+  //const { loading, error, data } = useQuery(FOOTER_MENU_QUERY, {
+  //  variables: { location: menuLocation },
   });
-
+  const { loading, error, data } = useQuery(FOOTER_MENU_QUERY, {
+    variables: { location: 'FOOTER' }, // Replace with your actual menu location
+  });
   if (loading) return <p>Lade...</p>;
   if (error) return <p>Fehler: {error.message}</p>;
 
