@@ -9,7 +9,7 @@ export const MENU_LOCATION_NAVIGATION_DEFAULT = 'DEFAULT_NAVIGATION';
  */
 
 export async function getAllMenus() {
-  const apolloClient = useApollo(initialState);
+  const apolloClient = initializeApollo();
 
   const data = await apolloClient.query({
     query: QUERY_ALL_MENUS,
