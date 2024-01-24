@@ -21,7 +21,7 @@ export function pagePathBySlug(slug) {
  */
 
 export async function getPageByUri(uri) {
-  const apolloClient = getApolloClient();
+  const apolloClient = useApollo(initialState);
   const apiHost = new URL(process.env.WORDPRESS_GRAPHQL_ENDPOINT).host;
 
   let pageData;
@@ -116,7 +116,7 @@ const allPagesIncludesTypes = {
 export async function getAllPages(options = {}) {
   const { queryIncludes = 'index' } = options;
 
-  const apolloClient = getApolloClient();
+  const apolloClient = useApollo(initialState);
 
   const data = await apolloClient.query({
     query: allPagesIncludesTypes[queryIncludes],
