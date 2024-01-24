@@ -1,5 +1,5 @@
 // components/AdsenseAutoAds.js
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 
 const AdsenseAutoAds = () => {
   useEffect(() => {
