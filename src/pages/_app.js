@@ -12,6 +12,8 @@ import { getAllMenus } from 'lib/menus';
 import 'styles/globals.scss';
 import 'styles/wordpress.scss';
 import variables from 'styles/_variables.module.scss';
+// pages/_app.js oder Ihre Layout-Komponente
+import FooterMenu from '../components/FooterMenu';
 
 function App({ Component, pageProps = {}, metadata, recentPosts, categories, menus }) {
   const site = useSiteContext({
@@ -26,6 +28,7 @@ function App({ Component, pageProps = {}, metadata, recentPosts, categories, men
       <SearchProvider>
         <NextNProgress height={4} color={variables.progressbarColor} />
         <Component {...pageProps} />
+        <FooterMenu />
       </SearchProvider>
     </SiteContext.Provider>
   );
