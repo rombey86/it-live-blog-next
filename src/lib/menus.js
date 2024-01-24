@@ -1,4 +1,4 @@
-import { getApolloClient } from 'lib/apollo-client';
+import { initializeApollo } from 'lib/apollo-client';
 import { getTopLevelPages } from 'lib/pages';
 import { QUERY_ALL_MENUS } from 'data/menus';
 
