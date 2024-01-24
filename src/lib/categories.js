@@ -1,4 +1,4 @@
-import { useApollo } from 'lib/apollo-client';
+import { initializeApollo } from 'lib/apollo-client';
 
 import { QUERY_ALL_CATEGORIES, QUERY_CATEGORY_BY_SLUG, QUERY_CATEGORY_SEO_BY_SLUG } from 'data/categories';
 
@@ -15,7 +15,7 @@ export function categoryPathBySlug(slug) {
  */
 
 export async function getAllCategories() {
-  const apolloClient = useApollo(initialState);
+  const apolloClient = initializeApollo();
 
   const data = await apolloClient.query({
     query: QUERY_ALL_CATEGORIES,
@@ -33,7 +33,7 @@ export async function getAllCategories() {
  */
 
 export async function getCategoryBySlug(slug) {
-  const apolloClient = useApollo(initialState);
+  const apolloClient = initializeApollo();
   const apiHost = new URL(process.env.WORDPRESS_GRAPHQL_ENDPOINT).host;
 
   let categoryData;
