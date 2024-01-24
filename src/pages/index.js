@@ -37,20 +37,18 @@ export default function Home({ posts, pagination }) {
         <Container>
           <h2 className="sr-only">Posts</h2>
           <ul className={styles.posts}>
-            {posts.map((post) => {
-              return (
-                <li key={post.slug}>
-                  <PostCard post={post} />
-                </li>
-              );
-            })}
+            {posts.map((post) => (
+              <li key={post.slug}>
+                <PostCard post={post} />
+              </li>
+            ))}
           </ul>
           {pagination && (
             <Pagination
               addCanonical={false}
-              currentPage={pagination?.currentPage}
-              pagesCount={pagination?.pagesCount}
-              basePath={pagination?.basePath}
+              currentPage={pagination.currentPage}
+              pagesCount={pagination.pagesCount}
+              basePath={pagination.basePath}
             />
           )}
         </Container>
@@ -63,6 +61,7 @@ export async function getStaticProps() {
   const { posts, pagination } = await getPaginatedPosts({
     queryIncludes: 'archive',
   });
+
   return {
     props: {
       posts,
@@ -71,5 +70,6 @@ export async function getStaticProps() {
         basePath: '/posts',
       },
     },
+    revalidate: 10, // In seconds
   };
 }
