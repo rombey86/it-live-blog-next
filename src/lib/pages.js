@@ -1,4 +1,4 @@
-import { getApolloClient } from 'lib/apollo-client';
+import { initializeApollo } from 'lib/apollo-client';
 
 import {
   QUERY_ALL_PAGES_INDEX,
