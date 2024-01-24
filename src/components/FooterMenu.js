@@ -23,7 +23,7 @@ const FooterMenu = () => {
   // Pass the variable to the useQuery hook
   //const { loading, error, data } = useQuery(FOOTER_MENU_QUERY, {
   //  variables: { location: menuLocation },
-  });
+ // });
   const { loading, error, data } = useQuery(FOOTER_MENU_QUERY, {
     variables: { location: 'FOOTER' }, // Replace with your actual menu location
   });
