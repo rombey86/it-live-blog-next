@@ -8,7 +8,7 @@ import { getRecentPosts } from 'lib/posts';
 import { getCategories } from 'lib/categories';
 import NextNProgress from 'nextjs-progressbar';
 import { getAllMenus } from 'lib/menus';
-
+import AdsenseAutoAds from '../components/AdsenseAutoAds';
 import 'styles/globals.scss';
 import 'styles/wordpress.scss';
 import variables from 'styles/_variables.module.scss';
@@ -29,6 +29,7 @@ function App({ Component, pageProps = {}, metadata, recentPosts, categories, men
         <NextNProgress height={4} color={variables.progressbarColor} />
         <Component {...pageProps} />
         <FooterMenu />
+        <AdsenseAutoAds />
       </SearchProvider>
     </SiteContext.Provider>
   );
