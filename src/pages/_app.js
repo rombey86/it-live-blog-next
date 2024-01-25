@@ -1,5 +1,6 @@
 import NextApp from 'next/app';
 import { ApolloProvider } from '@apollo/client';
+import Head from 'next/head';
 
 // Import your hooks and lib functions
 import { SiteContext, useSiteContext } from 'hooks/use-site';
@@ -29,6 +30,19 @@ function App({ Component, pageProps }) {
     <ApolloProvider client={apolloClient}>
       <SiteContext.Provider value={site}>
         <SearchProvider>
+          <Head>
+            {/* Matomo Tag Manager */}
+            <script dangerouslySetInnerHTML={{
+              __html: `
+                var _mtm = window._mtm = window._mtm || [];
+                _mtm.push({'mtm.startTime': (new Date().getTime()), 'event': 'mtm.Start'});
+                (function() {
+                  var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+                  g.async=true; g.src='https://matomo.it-live-blog.com/js/container_U7VVtRw5.js'; s.parentNode.insertBefore(g,s);
+                })();
+              `,
+            }} />
+          </Head>
           <NextNProgress height={4} color={variables.progressbarColor} />
           <Component {...pageProps} />
           <AdsenseAutoAds />
