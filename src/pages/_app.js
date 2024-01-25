@@ -13,7 +13,6 @@ import { getAllMenus } from 'lib/menus';
 // Import your components and styles
 import NextNProgress from 'nextjs-progressbar';
 import AdsenseAutoAds from '../components/AdsenseAutoAds';
-import FooterMenu from '../components/FooterMenu';
 import 'styles/globals.scss';
 import 'styles/wordpress.scss';
 import variables from 'styles/_variables.module.scss';
