@@ -32,7 +32,6 @@ function App({ Component, pageProps }) {
         <SearchProvider>
           <NextNProgress height={4} color={variables.progressbarColor} />
           <Component {...pageProps} />
-          //<FooterMenu />
           <AdsenseAutoAds />
         </SearchProvider>
       </SiteContext.Provider>
