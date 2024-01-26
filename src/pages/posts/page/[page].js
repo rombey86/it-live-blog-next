@@ -2,7 +2,7 @@ import { getPaginatedPosts } from 'lib/posts';
 import usePageMetadata from 'hooks/use-page-metadata';
 
 import TemplateArchive from 'templates/archive';
-
+import { getAllPosts, getPagesCount } from 'lib/posts';
 export default function Posts({ posts, pagination }) {
   const title = `All Posts`;
   const slug = 'posts';
@@ -53,19 +53,19 @@ export async function getStaticPaths() {
 
   // 2. Uncomment the below
   //
-  // const { posts } = await getAllPosts({
-  //   queryIncludes: 'index',
-  // });
-  // const pagesCount = await getPagesCount(posts);
+   const { posts } = await getAllPosts({
+     queryIncludes: 'index',
+   });
+   const pagesCount = await getPagesCount(posts);
 
-  // const paths = [...new Array(pagesCount)].map((_, i) => {
-  //   return { params: { page: String(i + 1) } };
-  // });
+   const paths = [...new Array(pagesCount)].map((_, i) => {
+     return { params: { page: String(i + 1) } };
+   });
 
   // 3. Update `paths` in the return statement below to reference the `paths` constant above
 
   return {
-    paths: [],
+    paths,
     fallback: 'blocking',
   };
 }
