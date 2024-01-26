@@ -1,75 +1,81 @@
-import useSite from 'hooks/use-site';
-import { getPaginatedPosts } from 'lib/posts';
-import { WebsiteJsonLd } from 'lib/json-ld';
+import NextApp from 'next/app';
+import { ApolloProvider } from '@apollo/client';
+import Head from 'next/head';
 
-import Layout from 'components/Layout';
-import Header from 'components/Header';
-import Section from 'components/Section';
-import Container from 'components/Container';
-import PostCard from 'components/PostCard';
-import Pagination from 'components/Pagination';
+// Import your hooks and lib functions
+import { SiteContext, useSiteContext } from 'hooks/use-site';
+import { SearchProvider } from 'hooks/use-search';
+import { useApollo } from '../lib/apollo-client';
+import { getSiteMetadata } from 'lib/site';
+import { getRecentPosts } from 'lib/posts';
+import { getCategories } from 'lib/categories';
+import { getAllMenus } from 'lib/menus';
 
-import styles from 'styles/pages/Home.module.scss';
+// Import your components and styles
+import NextNProgress from 'nextjs-progressbar';
+import AdsenseAutoAds from '../components/AdsenseAutoAds';
+import 'styles/globals.scss';
+import 'styles/wordpress.scss';
+import variables from 'styles/_variables.module.scss';
 
-export default function Home({ posts, pagination }) {
-  const { metadata = {} } = useSite();
-  const { title, description } = metadata;
+function App({ Component, pageProps }) {
+  // Initialize Apollo Client with the initial state
+  const apolloClient = useApollo(pageProps.initialApolloState);
+
+  // Use the site context hook to get the necessary site data
+  const site = useSiteContext(pageProps);
 
   return (
-    <Layout>
-      <WebsiteJsonLd siteTitle={title} />
-      <Header>
-        <h1
-          dangerouslySetInnerHTML={{
-            __html: title,
-          }}
-        />
-
-        <p
-          className={styles.description}
-          dangerouslySetInnerHTML={{
-            __html: description,
-          }}
-        />
-      </Header>
-
-      <Section>
-        <Container>
-          <h2 className="sr-only">Posts</h2>
-          <ul className={styles.posts}>
-            {posts.map((post) => (
-              <li key={post.slug}>
-                <PostCard post={post} />
-              </li>
-            ))}
-          </ul>
-          {pagination && (
-            <Pagination
-              addCanonical={false}
-              currentPage={pagination.currentPage}
-              pagesCount={pagination.pagesCount}
-              basePath={pagination.basePath}
+    <ApolloProvider client={apolloClient}>
+      <SiteContext.Provider value={site}>
+        <SearchProvider>
+          <Head>
+            {/* Matomo Tag Manager */}
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
+                  var _mtm = window._mtm = window._mtm || [];
+                  _mtm.push({'mtm.startTime': (new Date().getTime()), 'event': 'mtm.Start'});
+                  (function() {
+                    var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+                    g.async = true; g.src = 'https://matomo.it-live-blog.com/js/container_U7VVtRw5.js'; s.parentNode.insertBefore(g, s);
+                  })();
+                `,
+              }}
             />
-          )}
-        </Container>
-      </Section>
-    </Layout>
+          </Head>
+          <NextNProgress height={4} color={variables.progressbarColor} />
+          <Component {...pageProps} />
+          <AdsenseAutoAds />
+        </SearchProvider>
+      </SiteContext.Provider>
+    </ApolloProvider>
   );
 }
 
-export async function getStaticProps() {
-  const { posts, pagination } = await getPaginatedPosts({
-    queryIncludes: 'archive',
-  });
+// Fetch global data for every page
+App.getInitialProps = async function (appContext) {
+  const appProps = await NextApp.getInitialProps(appContext);
 
+  // Fetch data from your lib functions
+  const metadata = await getSiteMetadata();
+  const { posts: recentPosts } = await getRecentPosts({
+    count: 5,
+    queryIncludes: 'index',
+  });
+  const { categories } = await getCategories({ count: 5 });
+  const { menus = [] } = await getAllMenus();
+
+  // Return the data as props to be used in the site context
   return {
-    props: {
-      posts,
-      pagination: {
-        ...pagination,
-        basePath: '/posts',
-      },
+    ...appProps,
+    pageProps: {
+      metadata,
+      recentPosts,
+      categories,
+      menus,
     },
-    revalidate: 10, // In seconds
   };
-}
+};
+
+export default App;
