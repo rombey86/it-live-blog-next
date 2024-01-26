@@ -1,45 +1,75 @@
-import { ApolloProvider } from '@apollo/client';
-import Head from 'next/head';
-import { useApollo } from '../lib/apollo-client';
+import useSite from 'hooks/use-site';
+import { getPaginatedPosts } from 'lib/posts';
+import { WebsiteJsonLd } from 'lib/json-ld';
 
-import { SiteContext } from 'hooks/use-site';
-import { SearchProvider } from 'hooks/use-search';
+import Layout from 'components/Layout';
+import Header from 'components/Header';
+import Section from 'components/Section';
+import Container from 'components/Container';
+import PostCard from 'components/PostCard';
+import Pagination from 'components/Pagination';
 
-import NextNProgress from 'nextjs-progressbar';
-import AdsenseAutoAds from '../components/AdsenseAutoAds';
-import 'styles/globals.scss';
-import 'styles/wordpress.scss';
-import variables from 'styles/_variables.module.scss';
+import styles from 'styles/pages/Home.module.scss';
 
-function App({ Component, pageProps }) {
-  const apolloClient = useApollo(pageProps.initialApolloState);
+export default function Home({ posts, pagination }) {
+  const { metadata = {} } = useSite();
+  const { title, description } = metadata;
 
   return (
-    <ApolloProvider client={apolloClient}>
-      <SiteContext.Provider value={pageProps}>
-        <SearchProvider>
-          <Head>
-            {/* Matomo Tag Manager */}
-            <script
-              dangerouslySetInnerHTML={{
-                __html: `
-                  var _mtm = window._mtm = window._mtm || [];
-                  _mtm.push({'mtm.startTime': (new Date().getTime()), 'event': 'mtm.Start'});
-                  (function() {
-                    var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
-                    g.async = true; g.src = 'https://matomo.it-live-blog.com/js/container_U7VVtRw5.js'; s.parentNode.insertBefore(g, s);
-                  })();
-                `,
-              }}
+    <Layout>
+      <WebsiteJsonLd siteTitle={title} />
+      <Header>
+        <h1
+          dangerouslySetInnerHTML={{
+            __html: title,
+          }}
+        />
+
+        <p
+          className={styles.description}
+          dangerouslySetInnerHTML={{
+            __html: description,
+          }}
+        />
+      </Header>
+
+      <Section>
+        <Container>
+          <h2 className="sr-only">Posts</h2>
+          <ul className={styles.posts}>
+            {posts.map((post) => (
+              <li key={post.slug}>
+                <PostCard post={post} />
+              </li>
+            ))}
+          </ul>
+          {pagination && (
+            <Pagination
+              addCanonical={false}
+              currentPage={pagination.currentPage}
+              pagesCount={pagination.pagesCount}
+              basePath={pagination.basePath}
             />
-          </Head>
-          <NextNProgress height={4} color={variables.progressbarColor} />
-          <Component {...pageProps} />
-          <AdsenseAutoAds />
-        </SearchProvider>
-      </SiteContext.Provider>
-    </ApolloProvider>
+          )}
+        </Container>
+      </Section>
+    </Layout>
   );
 }
 
-export default App;
+export async function getStaticProps() {
+  const { posts, pagination } = await getPaginatedPosts({
+    queryIncludes: 'archive',
+  });
+
+  return {
+    props: {
+      posts,
+      pagination: {
+        ...pagination,
+        basePath: '/posts',
+      },
+    },
+    revalidate: 10, // In seconds
+  };
+}
