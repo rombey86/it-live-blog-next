@@ -224,7 +224,7 @@ export const QUERY_POSTS_BY_CATEGORY_ID = gql`
   }
 `;
 
-export const QUERY_POSTS_BY_AUTHOR_SLUG_INDEX = gql`
+export const QUERY_S_BY_AUTHOR_SLUG_INDEX = gql`
   ${POST_FIELDS}
   query PostByAuthorSlugIndex($slug: String!) {
     posts(where: { authorName: $slug, hasPassword: false }) {
