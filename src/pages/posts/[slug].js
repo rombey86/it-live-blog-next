@@ -16,7 +16,7 @@ import Container from 'components/Container';
 import Content from 'components/Content';
 import Metadata from 'components/Metadata';
 import FeaturedImage from 'components/FeaturedImage';
-import DisqusComments from 'components/DisqusComments.jsx';
+import DisqusComments from 'components/DisqusComments';
 import styles from 'styles/pages/Post.module.scss';
 
 export default function Post({ post, socialImage, related }) {
