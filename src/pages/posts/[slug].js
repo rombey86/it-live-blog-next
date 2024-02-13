@@ -16,7 +16,7 @@ import Container from 'components/Container';
 import Content from 'components/Content';
 import Metadata from 'components/Metadata';
 import FeaturedImage from 'components/FeaturedImage';
-import { DisqusComments } from 'components/DisqusComments.js';
+
 import styles from 'styles/pages/Post.module.scss';
 
 export default function Post({ post, socialImage, related }) {
@@ -108,7 +108,7 @@ export default function Post({ post, socialImage, related }) {
           </Container>
         </Section>
       </Content>
-      <DisqusComments />
+
       <Section className={styles.postFooter}>
         <Container>
           <p className={styles.postModified}>Last updated on {formatDate(modified)}.</p>
