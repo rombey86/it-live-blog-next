@@ -51,14 +51,18 @@ function App({ Component, pageProps }) {
         <SearchProvider>
           <Head>
             {/* Matomo Tag Manager */}
-            <script>
-              var _mtm = window._mtm = window._mtm || [];
-              _mtm.push({'mtm.startTime': (new Date().getTime()), 'event': 'mtm.Start'});
-              (function() {
-                var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-                g.async=true; g.src='https://matomo.it-live-blog.com/js/container_onCb31vh.js'; s.parentNode.insertBefore(g,s);
-              })();
-            </script>
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
+                  var _mtm = window._mtm = window._mtm || [];
+                  _mtm.push({'mtm.startTime': (new Date().getTime()), 'event': 'mtm.Start'});
+                  (function() {
+                    var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+                    g.async = true; g.src = 'https://matomo.it-live-blog.com/js/container_onCb31vh.js'; s.parentNode.insertBefore(g, s);
+                  })();
+                `,
+              }}
+            />
           </Head>
           <NextNProgress height={4} color={variables.progressbarColor} />
           <Component {...pageProps} />
