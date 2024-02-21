@@ -28,7 +28,7 @@
     "he": "^1.2.0",
     "js-cookie": "^3.0.5",
     "loader-utils": "^3.2.1",
-    "next": "13.4.0",
+    "next": "^13.4.0",
     "nextjs-progressbar": "^0.0.16",
     "parameterize": "^1.0.0",
     "path": "^0.12.7",
@@ -39,7 +39,8 @@
     "react-icons": "^4.8.0",
     "rss": "^1.2.2",
     "sass": "^1.62.1",
-    "style.css": "^1.0.3"
+    "style.css": "^1.0.3",
+    "vue-matomo": "^4.2.0"
   },
   "devDependencies": {
     "eslint": "8.39.0",

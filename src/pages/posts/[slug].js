@@ -81,6 +81,7 @@ export default function Post({ post, socialImage, related }) {
           />
         )}
         <h1
+          aria-hidden="true"
           className={styles.title}
           dangerouslySetInnerHTML={{
             __html: title,

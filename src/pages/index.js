@@ -20,6 +20,7 @@ export default function Home({ posts, pagination }) {
       <WebsiteJsonLd siteTitle={title} />
       <Header>
         <h1
+          aria-hidden="true"
           dangerouslySetInnerHTML={{
             __html: title,
           }}

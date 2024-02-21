@@ -1,7 +1,8 @@
+/* eslint-disable no-irregular-whitespace */
 import NextApp from 'next/app';
 import { ApolloProvider } from '@apollo/client';
 import Head from 'next/head';
-
+import Script from 'next/script';
 // Import your hooks and lib functions
 import { SiteContext, useSiteContext } from 'hooks/use-site';
 import { SearchProvider } from 'hooks/use-search';
@@ -21,13 +22,13 @@ import variables from 'styles/_variables.module.scss';
 
 function App({ Component, pageProps }) {
   // Initialize Apollo Client with the initial state
-  const apolloClient = useApollo(pageProps.initialApolloState);
+  const apolloClient = useApollo(pageProps.initialApolloState); // Use the site context hook to get the necessary site data
 
-  // Use the site context hook to get the necessary site data
   const site = useSiteContext(pageProps);
 
   return (
     <ApolloProvider client={apolloClient}>
+           {' '}
       <CookieConsent
         location="bottom"
         buttonText="Akzeptieren"
@@ -40,53 +41,41 @@ function App({ Component, pageProps }) {
         onDecline={() => console.log('Cookie abgelehnt')}
         enableDeclineButton
       >
-        Wir verwenden Cookies, um die Benutzererfahrung zu verbessern und die Website sicherer und effektiver zu
-        gestalten. Weitere Informationen finden Sie in unserer{' '}
+                Wir verwenden Cookies, um die Benutzererfahrung zu verbessern und die Website sicherer und effektiver zu
+                gestalten. Weitere Informationen finden Sie in unserer        {' '}
         <a href="https://static.it-live-blog.com/datenschutzerklaerung-2-0/" style={{ textDecoration: 'underline' }}>
-          Datenschutzerklärung
+                    Datenschutzerklärung        {' '}
         </a>
-        .
+                .      {' '}
       </CookieConsent>
+      <Script strategy="lazyOnload" src="https://matomo.it-live-blog.com/js/container_rO4Kojsr.js" />     {' '}
       <SiteContext.Provider value={site}>
+               {' '}
         <SearchProvider>
-          <Head>
-            {/* Matomo Tag Manager */}
-            <script
-              dangerouslySetInnerHTML={{
-                __html: `
-                  var _mtm = window._mtm = window._mtm || [];
-                  _mtm.push({'mtm.startTime': (new Date().getTime()), 'event': 'mtm.Start'});
-                  (function() {
-                    var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
-                    g.async = true; g.src = 'https://matomo.it-live-blog.com/js/container_A3adO0Jh.js'; s.parentNode.insertBefore(g, s);
-                  })();
-                `,
-              }}
-            />
-          </Head>
-          <NextNProgress height={4} color={variables.progressbarColor} />
-          <Component {...pageProps} />
-          <AdsenseAutoAds />
+                    <Head> </Head>
+                    <NextNProgress height={4} color={variables.progressbarColor} />
+                    <Component {...pageProps} />
+                    <AdsenseAutoAds />       {' '}
         </SearchProvider>
+             {' '}
       </SiteContext.Provider>
+         {' '}
     </ApolloProvider>
   );
 }
 
 // Fetch global data for every page
 App.getInitialProps = async function (appContext) {
-  const appProps = await NextApp.getInitialProps(appContext);
+  const appProps = await NextApp.getInitialProps(appContext); // Fetch data from your lib functions
 
-  // Fetch data from your lib functions
   const metadata = await getSiteMetadata();
   const { posts: recentPosts } = await getRecentPosts({
     count: 5,
     queryIncludes: 'index',
   });
   const { categories } = await getCategories({ count: 5 });
-  const { menus = [] } = await getAllMenus();
+  const { menus = [] } = await getAllMenus(); // Return the data as props to be used in the site context
 
-  // Return the data as props to be used in the site context
   return {
     ...appProps,
     pageProps: {
