@@ -52,10 +52,24 @@ function App({ Component, pageProps }) {
       <SiteContext.Provider value={site}>
                {' '}
         <SearchProvider>
-                    <Head> </Head>
-                    <NextNProgress height={4} color={variables.progressbarColor} />
-                    <Component {...pageProps} />
-                    <AdsenseAutoAds />       {' '}
+          <Head>
+            {/* Matomo Tag Manager */}
+            <script
+              dangerouslySetInnerHTML={{
+                __html: `
+                  var _mtm = window._mtm = window._mtm || [];
+                  _mtm.push({'mtm.startTime': (new Date().getTime()), 'event': 'mtm.Start'});
+                  (function() {
+                    var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+                    g.async = true; g.src = 'https://matomo.it-live-blog.com/js/container_A3adO0Jh.js'; s.parentNode.insertBefore(g, s);
+                  })();
+                `,
+              }}
+            />
+          </Head>
+          <NextNProgress height={4} color={variables.progressbarColor} />
+          <Component {...pageProps} />
+          <AdsenseAutoAds />
         </SearchProvider>
              {' '}
       </SiteContext.Provider>
