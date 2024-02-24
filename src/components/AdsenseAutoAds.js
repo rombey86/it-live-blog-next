@@ -6,7 +6,7 @@ const AdsenseAutoAds = () => {
   useEffect(() => {
     // Prüfen, ob der Benutzer der Cookie-Nutzung zugestimmt hat
     const consent = Cookies.get('userConsent');
-    if (consent === true) {
+    if (consent === 'true') {
       // Prüfen, ob das AdSense-Skript bereits geladen wurde
       const isAdsenseLoaded = window.adsbygoogle && window.adsbygoogle.loaded;
       if (!isAdsenseLoaded) {
