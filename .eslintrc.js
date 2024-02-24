@@ -9,7 +9,13 @@ module.exports = {
       version: 'detect',
     },
   },
-  extends: ['eslint:recommended', 'plugin:react/recommended', 'plugin:prettier/recommended', 'next/core-web-vitals'],
+  extends: [
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:prettier/recommended',
+    'plugin:@next/next/recommended',
+    'next/core-web-vitals',
+  ],
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
@@ -23,5 +29,6 @@ module.exports = {
     'react-hooks/exhaustive-deps': 'warn',
     'react/prop-types': 'off',
     'react/react-in-jsx-scope': 'off',
+    '@next/next/no-img-element': 'off',
   },
 };
