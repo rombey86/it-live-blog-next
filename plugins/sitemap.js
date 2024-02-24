@@ -1,4 +1,3 @@
-const path = require('path');
 const { getSitemapData, generateSitemap, generateRobotsTxt } = require('./util');
 const WebpackPluginCompiler = require('./plugin-compiler');
 
@@ -23,17 +22,15 @@ module.exports = function sitemap(nextConfig = {}) {
           config.watchOptions.ignored = [config.watchOptions.ignored];
         }
 
-        config.watchOptions.ignored.push(path.join('**', plugin.outputDirectory, plugin.outputName));
+        config.plugins.push(
+          new WebpackPluginCompiler({
+            url: WORDPRESS_GRAPHQL_ENDPOINT,
+            plugin,
+            verbose,
+            nextConfig,
+          })
+        );
       }
-
-      config.plugins.push(
-        new WebpackPluginCompiler({
-          url: WORDPRESS_GRAPHQL_ENDPOINT,
-          plugin,
-          verbose,
-          nextConfig,
-        })
-      );
 
       if (typeof nextConfig.webpack === 'function') {
         return nextConfig.webpack(config, options);
