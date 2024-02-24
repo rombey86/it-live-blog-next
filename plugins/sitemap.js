@@ -18,10 +18,13 @@ module.exports = function sitemap(nextConfig = {}) {
 
   return Object.assign({}, nextConfig, {
     webpack(config, options) {
-      if (config.watchOptions && !config.watchOptions.ignored) {
-        config.watchOptions.ignored = [];
+      if (config.watchOptions) {
+        if (!Array.isArray(config.watchOptions.ignored)) {
+          config.watchOptions.ignored = [config.watchOptions.ignored];
+        }
+
+        config.watchOptions.ignored.push(path.join('**', plugin.outputDirectory, plugin.outputName));
       }
-      config.watchOptions.ignored.push(path.join('**', plugin.outputDirectory, plugin.outputName));
 
       config.plugins.push(
         new WebpackPluginCompiler({
