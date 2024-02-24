@@ -27,7 +27,7 @@ const nextConfig = {
 
     // By default, only render this number of post pages ahead of time, otherwise
     // the rest will be rendered on-demand
-    POSTS_PRERENDER_COUNT: 100,
+    POSTS_PRERENDER_COUNT: '150',
 
     WORDPRESS_GRAPHQL_ENDPOINT: process.env.WORDPRESS_GRAPHQL_ENDPOINT,
     WORDPRESS_MENU_LOCATION_NAVIGATION: process.env.WORDPRESS_MENU_LOCATION_NAVIGATION || 'PRIMARY',
@@ -39,11 +39,6 @@ module.exports = () => {
   const plugins = [indexSearch, feed, sitemap];
   return plugins.reduce((acc, plugin) => plugin(acc), nextConfig);
 };
-
-/**
- * parseEnv
- * @description Helper function to check if a variable is defined and parse booelans
- */
 
 function parseEnvValue(value, defaultValue) {
   if (typeof value === 'undefined') return defaultValue;
