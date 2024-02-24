@@ -8,7 +8,7 @@ import { ArticleJsonLd } from 'lib/json-ld';
 import { helmetSettingsFromMetadata } from 'lib/site';
 import useSite from 'hooks/use-site';
 import usePageMetadata from 'hooks/use-page-metadata';
-
+import DisqusComments from 'components/DisqusComments/DisqusComments';
 import Layout from 'components/Layout';
 import Header from 'components/Header';
 import Section from 'components/Section';
@@ -133,6 +133,7 @@ export default function Post({ post, socialImage, related }) {
           )}
         </Container>
       </Section>
+      <DisqusComments post={post} />
     </Layout>
   );
 }
