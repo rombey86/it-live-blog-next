@@ -8,7 +8,6 @@ import { ArticleJsonLd } from 'lib/json-ld';
 import { helmetSettingsFromMetadata } from 'lib/site';
 import useSite from 'hooks/use-site';
 import usePageMetadata from 'hooks/use-page-metadata';
-import DisqusComments from 'components/DisqusComments/DisqusComments';
 import Layout from 'components/Layout';
 import Header from 'components/Header';
 import Section from 'components/Section';
@@ -69,9 +68,7 @@ export default function Post({ post, socialImage, related }) {
   return (
     <Layout>
       <Helmet {...helmetSettings} />
-
       <ArticleJsonLd post={post} siteTitle={siteMetadata.title} />
-
       <Header>
         {featuredImage && (
           <FeaturedImage
@@ -96,7 +93,6 @@ export default function Post({ post, socialImage, related }) {
           isSticky={isSticky}
         />
       </Header>
-
       <Content>
         <Section>
           <Container>
@@ -109,7 +105,6 @@ export default function Post({ post, socialImage, related }) {
           </Container>
         </Section>
       </Content>
-
       <Section className={styles.postFooter}>
         <Container>
           <p className={styles.postModified}>Last updated on {formatDate(modified)}.</p>
@@ -133,7 +128,10 @@ export default function Post({ post, socialImage, related }) {
           )}
         </Container>
       </Section>
-      <DisqusComments post={post} />
+      {/* eslint-disable-next-line react/jsx-no-comment-textnodes*/}
+      <div id="commento"></div>
+      {/* eslint-disable-next-line @next/next/no-sync-scripts*/}
+      <script src="https://commento.it-live-blog.com/js/commento.js"></script>
     </Layout>
   );
 }
