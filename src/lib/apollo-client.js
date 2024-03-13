@@ -1,15 +1,28 @@
 import { useMemo } from 'react';
-import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
+import { ApolloClient, HttpLink, InMemoryCache, from } from '@apollo/client';
+import { onError } from 'apollo-link-error';
 import { removeLastTrailingSlash } from 'lib/util';
 
 let apolloClient;
 
 function createApolloClient() {
+  const errorLink = onError(({ graphQLErrors, networkError }) => {
+    if (graphQLErrors)
+      graphQLErrors.forEach(({ message, locations, path }) =>
+        console.log(
+          `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
+        ),
+      );
+    if (networkError) console.log(`[Network error]: ${networkError}`);
+  });
+
+  const httpLink = new HttpLink({
+    uri: removeLastTrailingSlash(process.env.WORDPRESS_GRAPHQL_ENDPOINT),
+  });
+
   return new ApolloClient({
-    ssrMode: typeof window === 'undefined', // Aktivieren Sie ssrMode, wenn die Ausführung auf dem Server stattfindet
-    link: new HttpLink({
-      uri: removeLastTrailingSlash(process.env.WORDPRESS_GRAPHQL_ENDPOINT),
-    }),
+    ssrMode: typeof window === 'undefined', // Enable ssrMode for server-side rendering
+    link: from([errorLink, httpLink]),
     cache: new InMemoryCache({
       typePolicies: {
         RootQuery: {
@@ -26,16 +39,15 @@ function createApolloClient() {
 export function initializeApollo(initialState = null) {
   const _apolloClient = apolloClient ?? createApolloClient();
 
-  // Wenn Ihre Seite initialProps oder getStaticProps oder getServerSideProps verwendet
+  // For SSG and SSR always create a new Apollo Client
+  if (typeof window === 'undefined') return _apolloClient;
+  // Create an Apollo Client once in the client
+  if (!apolloClient) apolloClient = _apolloClient;
+
+  // Hydrate the Apollo Client cache with the initial state if provided
   if (initialState) {
-    // Datenwiederherstellung aus dem Cache
     _apolloClient.cache.restore(initialState);
   }
-
-  // Für SSG und SSR immer einen neuen Apollo Client erstellen
-  if (typeof window === 'undefined') return _apolloClient;
-  // Einen Apollo Client einmal im Client erstellen
-  if (!apolloClient) apolloClient = _apolloClient;
 
   return _apolloClient;
 }
