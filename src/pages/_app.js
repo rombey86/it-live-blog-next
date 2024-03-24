@@ -56,7 +56,7 @@ function App({ Component, pageProps }) {
             <script
               async
               src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2775871661849204"
-             crossOrigin="anonymous"
+              crossOrigin="anonymous"
             />
             {/* Matomo Tag Manager */}
             <script
