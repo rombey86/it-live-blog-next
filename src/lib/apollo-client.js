@@ -1,17 +1,19 @@
 import { useMemo } from 'react';
-import { ApolloClient, HttpLink, InMemoryCache, from } from '@apollo/client';
-import { onError } from 'apollo-link-error';
+import { ApolloClient, HttpLink, InMemoryCache, ApolloLink } from '@apollo/client';
 import { removeLastTrailingSlash } from 'lib/util';
 
 let apolloClient;
 
 function createApolloClient() {
-  const errorLink = onError(({ graphQLErrors, networkError }) => {
-    if (graphQLErrors)
-      graphQLErrors.forEach(({ message, locations, path }) =>
-        console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`)
-      );
-    if (networkError) console.log(`[Network error]: ${networkError}`);
+  const errorLink = new ApolloLink((operation, forward) => {
+    return forward(operation).map(response => {
+      if (response.errors) {
+        response.errors.forEach(error => {
+          console.log(`[GraphQL error]: ${error.message}`);
+        });
+      }
+      return response;
+    });
   });
 
   const httpLink = new HttpLink({
@@ -20,7 +22,7 @@ function createApolloClient() {
 
   return new ApolloClient({
     ssrMode: typeof window === 'undefined', // Enable ssrMode for server-side rendering
-    link: from([errorLink, httpLink]),
+    link: ApolloLink.from([errorLink, httpLink]),
     cache: new InMemoryCache({
       typePolicies: {
         RootQuery: {
