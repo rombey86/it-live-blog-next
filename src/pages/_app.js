@@ -53,8 +53,11 @@ function App({ Component, pageProps }) {
                {' '}
         <SearchProvider>
           <Head>
-            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2775871661849204"
-     crossorigin="anonymous"></script>
+            <script
+              async
+              src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2775871661849204"
+             crossOrigin="anonymous"
+            />
             {/* Matomo Tag Manager */}
             <script
               dangerouslySetInnerHTML={{
