@@ -6,9 +6,9 @@ let apolloClient;
 
 function createApolloClient() {
   const errorLink = new ApolloLink((operation, forward) => {
-    return forward(operation).map(response => {
+    return forward(operation).map((response) => {
       if (response.errors) {
-        response.errors.forEach(error => {
+        response.errors.forEach((error) => {
           console.log(`[GraphQL error]: ${error.message}`);
         });
       }
