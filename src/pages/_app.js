@@ -48,7 +48,7 @@ function App({ Component, pageProps }) {
         </a>
                 .      {' '}
       </CookieConsent>
-      <Script strategy="lazyOnload" src="https://matomo.it-live-blog.com/js/container_rO4Kojsr.js" />     {' '}
+      <Script strategy="lazyOnload" src="https://matomo.it-live-blog.com/js/container_fUNUu98b.js" />     {' '}
       <SiteContext.Provider value={site}>
                {' '}
         <SearchProvider>
