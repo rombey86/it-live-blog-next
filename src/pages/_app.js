@@ -53,13 +53,14 @@ function App({ Component, pageProps }) {
                {' '}
         <SearchProvider>
           <Head>
-            <script
-              async
+            <Script
+              strategy="lazyOnload"
               src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2775871661849204"
               crossOrigin="anonymous"
             />
             {/* Matomo Tag Manager */}
-            <script
+            <Script
+              strategy="lazyOnload"
               dangerouslySetInnerHTML={{
                 __html: `
                   var _mtm = window._mtm = window._mtm || [];
